@@ -19,6 +19,8 @@ services:
       - .:/app
       - bundle:/usr/local/bundle
       - /var/tmp
+    depends_on:
+      - db
 
   db:
     image: mysql:8.0.16
