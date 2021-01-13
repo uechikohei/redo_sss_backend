@@ -1,0 +1,41 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    tty: true
+    stdin_open: true
+    environment:
+      - RAILS_ENV=development
+      # ターミナルにスクショを表示、store_artifactパス先に保存される。
+      - RAILS_SYSTEM_TESTING_SCREENSHOT=inlinei
+      - FRONTEND_ORIGIN=http://localhost:3000
+    command: bash -c "bundle exec rails s -p 3001 -b '0.0.0.0'"
+    volumes:
+      - .:/app
+      - bundle:/usr/local/bundle
+      - /var/tmp
+
+  db:
+    image: mysql:8.0.16
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    environment:
+      MYSQL_HOST: 127.0.0.1
+      MYSQL_DATABASE: app_development
+      MYSQL_USERNAME: root
+      MYSQL_ROOT_PASSWORD: root
+    security_opt:
+      - seccomp:unconfined
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysq
+
+volumes:
+  bundle:
+  mysql_data:
