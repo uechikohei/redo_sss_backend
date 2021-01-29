@@ -13,7 +13,7 @@ services:
       - RAILS_ENV=development
       # ターミナルにスクショを表示、store_artifactパス先に保存される。
       - RAILS_SYSTEM_TESTING_SCREENSHOT=inlinei
-      - FRONTEND_ORIGIN=http://localhost:3000
+      - FRONTEND_ORIGIN=http://localhost:8080
     command: bash -c "bundle exec rails s -p 3001 -b '0.0.0.0'"
     volumes:
       - .:/app
